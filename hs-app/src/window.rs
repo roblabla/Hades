@@ -16,8 +16,6 @@ use imgui::{
 use imgui_glium_renderer::Renderer;
 use imgui_winit_support::{HiDpiMode, WinitPlatform};
 
-use crate::app::App;
-
 pub struct Window {
     pub display: glium::Display,
     pub platform: WinitPlatform,
@@ -71,7 +69,7 @@ impl Window {
     }
 
     /// Ask `app` to render the frame, draw it and swap the OpenGL buffers
-    pub fn frame(&mut self, app: &mut App, imgui: &mut imgui::Context) {
+    pub fn frame<F: FnMut(&mut imgui::Ui)>(&mut self, imgui: &mut imgui::Context, mut f: F) {
         let gl_window = self.display.gl_window();
         self.platform
             .prepare_frame(imgui.io_mut(), gl_window.window())
@@ -79,7 +77,7 @@ impl Window {
         gl_window.window().request_redraw();
 
         let ui = imgui.new_frame();
-        app.render(ui);
+        f(ui);
 
         let gl_window = self.display.gl_window();
         let mut target = self.display.draw();
@@ -96,4 +94,9 @@ impl Window {
 
         target.finish().expect("Failed to swap buffers");
     }
+}
+
+pub struct Frame<'a, 'b> {
+    window: &'a Window,
+    imgui: &'b mut imgui::Context,
 }
