@@ -6,7 +6,7 @@ use crate::{
     core::{
         RegisterSize,
         Word,
-    }, gba::GBA
+    }, gba::Gba
 };
 
 const ROM_SIZE: usize = 4096;//0x02000_0000;
@@ -26,7 +26,7 @@ impl Rom {
 }
 
 impl Bus for Rom {
-    fn read<T: RegisterSize>(gba: &mut GBA, mut address: Address) -> T {
+    fn read<T: RegisterSize>(gba: &mut Gba, mut address: Address) -> T {
         address.mask(ROM_MASK as Word);
 
         gba.scheduler.idle(1);
@@ -36,7 +36,7 @@ impl Bus for Rom {
         }
     }
 
-    fn write<T: RegisterSize>(gba: &mut GBA, mut address: Address, value: T) {
+    fn write<T: RegisterSize>(gba: &mut Gba, mut address: Address, value: T) {
         address.mask(ROM_MASK as Word);
 
         gba.scheduler.idle(1);

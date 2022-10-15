@@ -1,5 +1,3 @@
-use imgui;
-
 use crate::gui::Gui;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Default)]
@@ -14,12 +12,12 @@ impl App {
         }
     }
 
-    /// Render the UI
+    /// Render the application
+    #[allow(clippy::redundant_pattern_matching)]
     pub fn render(&mut self, ui: &mut imgui::Ui) {
         let test_win = ui.window("Game");
         if let Some(_) = test_win.begin() {
             ui.text_wrapped("Hello, World");
         }
-
     }
 }

@@ -6,7 +6,7 @@ use crate::{
     core::{
         RegisterSize,
         Word,
-    }, gba::GBA
+    }, gba::Gba
 };
 
 const BIOS_SIZE: usize = 0x0000_4000;
@@ -27,7 +27,7 @@ impl Bios {
 }
 
 impl Bus for Bios {
-    fn read<T: RegisterSize>(gba: &mut GBA, mut address: Address) -> T {
+    fn read<T: RegisterSize>(gba: &mut Gba, mut address: Address) -> T {
         address.mask(BIOS_MASK as Word);
 
         gba.scheduler.idle(1);
@@ -37,7 +37,7 @@ impl Bus for Bios {
         }
     }
 
-    fn write<T: RegisterSize>(gba: &mut GBA, mut address: Address, value: T) {
+    fn write<T: RegisterSize>(gba: &mut Gba, mut address: Address, value: T) {
         address.mask(BIOS_MASK as Word);
 
         gba.scheduler.idle(1);

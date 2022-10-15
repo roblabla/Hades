@@ -13,7 +13,7 @@ use crate::{
         Word,
         Register,
     },
-    gba::GBA,
+    gba::Gba,
 };
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Default)]
@@ -61,14 +61,14 @@ impl Memory {
 }
 
 impl Bus for Memory {
-    fn read<T: RegisterSize>(gba: &mut GBA, address: Address) -> T {
+    fn read<T: RegisterSize>(gba: &mut Gba, address: Address) -> T {
         match address.value() >> 24 {
             0x00 => Bios::read(gba, address),
             _ => T::zero(),
         }
     }
 
-    fn write<T: RegisterSize>(gba: &mut GBA, address: Address, value: T) {
+    fn write<T: RegisterSize>(gba: &mut Gba, address: Address, value: T) {
         match address.value() >> 24 {
             0x00 => Bios::write(gba, address, value),
             _ => (),

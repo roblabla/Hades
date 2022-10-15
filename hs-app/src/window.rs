@@ -36,7 +36,7 @@ impl Window {
             .with_inner_size(LogicalSize::new(1024.0f64, 768.0f64));
 
         let display =
-            Display::new(win_builder, ctx_builder, &event_loop)
+            Display::new(win_builder, ctx_builder, event_loop)
             .expect("Failed to initialize display");
 
         let mut platform = WinitPlatform::init(imgui);

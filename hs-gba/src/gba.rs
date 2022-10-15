@@ -12,13 +12,13 @@ use crate::{
 };
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
-pub struct GBA {
+pub struct Gba {
     pub core: ARM7TDMI,
     pub scheduler: Scheduler,
     pub memory: Memory,
 }
 
-impl GBA {
+impl Gba {
     pub fn new() -> Self {
         Self {
             core: ARM7TDMI::new(),

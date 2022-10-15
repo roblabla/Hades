@@ -1,4 +1,4 @@
-use crate::gba::GBA;
+use crate::gba::Gba;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
 pub enum EmulatorState {
@@ -9,14 +9,14 @@ pub enum EmulatorState {
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct Emulator {
     state: EmulatorState,
-    gba: GBA,
+    gba: Gba,
 }
 
 impl Emulator {
     pub fn new() -> Self {
         Self {
             state: EmulatorState::Pause,
-            gba: GBA::new()
+            gba: Gba::new()
         }
     }
 
@@ -31,5 +31,11 @@ impl Emulator {
                 },
             }
         }
+    }
+}
+
+impl Default for Emulator {
+    fn default() -> Self {
+        Self::new()
     }
 }
