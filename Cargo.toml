@@ -2,7 +2,6 @@
 members = [
     'hs-app',
     'hs-gba',
-    'hs-gui',
 ]
 
 resolver = '2'

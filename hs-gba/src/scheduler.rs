@@ -1,4 +1,5 @@
 pub type Timestamp = u64;
+pub type Cycle = u64;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Default)]
 pub struct Scheduler {
@@ -12,5 +13,9 @@ impl Scheduler {
 
     pub fn now(&self) -> Timestamp {
         self.cycles
+    }
+
+    pub fn idle(&mut self, cycles: Cycle) {
+        self.cycles += cycles
     }
 }
