@@ -6,6 +6,7 @@ mod gba;
 mod scheduler;
 mod memory;
 mod ppu;
+pub mod protocol;
 
 pub use emulator::Emulator;
 pub use ppu::{SCREEN_WIDTH, SCREEN_HEIGHT};

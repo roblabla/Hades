@@ -29,7 +29,7 @@ impl Bus for Rom {
     fn read<T: RegisterSize>(gba: &mut Gba, mut address: Address) -> T {
         address.mask(ROM_MASK as Word);
 
-        gba.scheduler.idle(1);
+        gba.idle(1);
 
         unsafe {
             *((gba.memory.rom.data.as_ptr().add(address.value())) as *const T)
@@ -39,7 +39,7 @@ impl Bus for Rom {
     fn write<T: RegisterSize>(gba: &mut Gba, mut address: Address, value: T) {
         address.mask(ROM_MASK as Word);
 
-        gba.scheduler.idle(1);
+        gba.idle(1);
 
         unsafe {
             *((gba.memory.rom.data.as_ptr().add(address.value())) as *mut T) = value;

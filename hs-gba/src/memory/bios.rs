@@ -30,7 +30,7 @@ impl Bus for Bios {
     fn read<T: RegisterSize>(gba: &mut Gba, mut address: Address) -> T {
         address.mask(BIOS_MASK as Word);
 
-        gba.scheduler.idle(1);
+        gba.idle(1);
 
         unsafe {
             *((gba.memory.bios.data.as_ptr().add(address.value())) as *const T)
@@ -40,7 +40,7 @@ impl Bus for Bios {
     fn write<T: RegisterSize>(gba: &mut Gba, mut address: Address, value: T) {
         address.mask(BIOS_MASK as Word);
 
-        gba.scheduler.idle(1);
+        gba.idle(1);
 
         unsafe {
             *((gba.memory.bios.data.as_ptr().add(address.value())) as *mut T) = value;

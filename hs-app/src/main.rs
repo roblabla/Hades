@@ -10,17 +10,17 @@ use std::{
 };
 
 use glium::glutin::{
-    event_loop::{
-        EventLoop,
-        ControlFlow,
-    },
+    event_loop::EventLoop,
     event::{
         Event,
         WindowEvent,
     },
 };
 
-use hs_gba::Emulator;
+use hs_gba::{
+    Emulator,
+    protocol::FrontendChannels
+};
 
 use crate::{
     app::App,
@@ -35,7 +35,7 @@ struct Hades {
 }
 
 impl Hades {
-    pub fn new() -> Self {
+    pub fn new(channels: FrontendChannels) -> Self {
         let event_loop  = EventLoop::new();
 
         let mut imgui = imgui::Context::create();
@@ -43,7 +43,7 @@ impl Hades {
 
         let window = Window::open(&event_loop, &mut imgui);
 
-        let mut app = App::new();
+        let mut app = App::new(channels);
         app.scale = window.scale as u32;
 
         Self {
@@ -54,7 +54,7 @@ impl Hades {
         }
     }
 
-    pub fn run(mut self) {
+    pub fn run(mut self) -> ! {
         let mut last_frame = Instant::now();
         self.event_loop.run(move |event, _, control_flow| match event {
             Event::NewEvents(_) => {
@@ -71,27 +71,27 @@ impl Hades {
             Event::WindowEvent {
                 event: WindowEvent::CloseRequested,
                 ..
-            } => *control_flow = ControlFlow::Exit,
+            } => control_flow.set_exit(),
             event => {
                 let gl_window = self.window.display.gl_window();
                 self.window.platform.handle_event(self.imgui.io_mut(), gl_window.window(), &event);
             }
         });
-
     }
 }
 
 fn main() {
+    let (emu_channels, frontend_channels) = hs_gba::protocol::new_channels();
 
     // Spawn the Emulator thread
 
     thread::spawn(move || {
-        let mut emulator = Emulator::new();
+        let mut emulator = Emulator::new(emu_channels);
         emulator.run();
     });
 
     // Continue in the Gui thread
 
-    let hades = Hades::new();
+    let hades = Hades::new(frontend_channels);
     hades.run();
 }

@@ -3,7 +3,7 @@ use crate::{
         ARM7TDMI,
         Word
     },
-    scheduler::Scheduler,
+    scheduler::{Scheduler, Cycle},
     memory::{
         bus::Bus,
         Memory,
@@ -27,10 +27,14 @@ impl Gba {
         }
     }
 
-    pub fn step(&mut self) {
-        let _op: Word = Memory::read(self, Address::from(self.core.pc()));
+    pub fn idle(&mut self, cycles: Cycle) {
+        self.scheduler.raw_idle(cycles);
+    }
 
-        //println!("OP is {op:#010x}");
+    pub fn step(&mut self) {
+        let op: Word = Memory::read(self, Address::from(self.core.pc()));
+
+        println!("OP is {op:#010x}");
 
         *self.core.pc_mut() += std::mem::size_of::<Word>() as Word;
     }

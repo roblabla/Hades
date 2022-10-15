@@ -1,5 +1,6 @@
 #![allow(clippy::redundant_pattern_matching)]
 
+use hs_gba::protocol::Message;
 use imgui::WindowFlags;
 
 use crate::app::App;
@@ -10,9 +11,15 @@ pub fn render_menubar_file(ui: &imgui::Ui) {
     }
 }
 
-pub fn render_menubar_emulation(ui: &imgui::Ui) {
+pub fn render_menubar_emulation(app: &mut App, ui: &imgui::Ui) {
     if let Some(_) = ui.begin_menu("Emulation") {
+        if ui.menu_item("Run") {
+            app.channels.send(Message::Run);
+        }
 
+        if ui.menu_item("Pause") {
+            app.channels.send(Message::Pause);
+        }
     }
 }
 
@@ -67,10 +74,10 @@ pub fn render_menubar_help(ui: &imgui::Ui) {
     });
 }
 
-pub fn render_menubar(_app: &App, ui: &mut imgui::Ui) {
+pub fn render_menubar(app: &mut App, ui: &mut imgui::Ui) {
     if let Some(_) = ui.begin_main_menu_bar() {
         render_menubar_file(ui);
-        render_menubar_emulation(ui);
+        render_menubar_emulation(app, ui);
         render_menubar_video(ui);
         render_menubar_audio( ui);
         render_menubar_help(ui);

@@ -1,13 +1,17 @@
+use hs_gba::protocol::FrontendChannels;
+
 use crate::gui;
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Default)]
+#[derive(Debug, Clone)]
 pub struct App {
+    pub channels: FrontendChannels,
     pub scale: u32,
 }
 
 impl App {
-    pub fn new() -> Self {
+    pub fn new(channels: FrontendChannels) -> Self {
         Self {
+            channels,
             scale: 0,
         }
     }

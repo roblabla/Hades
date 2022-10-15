@@ -15,7 +15,7 @@ impl Scheduler {
         self.cycles
     }
 
-    pub fn idle(&mut self, cycles: Cycle) {
+    pub fn raw_idle(&mut self, cycles: Cycle) {
         self.cycles += cycles
     }
 }
