@@ -45,6 +45,8 @@ fn main() {
 
     let mut window = Window::open(&event_loop, &mut imgui);
 
+    app.scale = window.scale as u32;
+
     let mut last_frame = Instant::now();
     event_loop.run(move |event, _, control_flow| match event {
         Event::NewEvents(_) => {

@@ -33,7 +33,7 @@ impl Window {
 
         let win_builder = WindowBuilder::new()
             .with_title("Hades")
-            .with_inner_size(LogicalSize::new(1024.0f64, 768.0f64));
+            .with_inner_size(LogicalSize::new(hs_gba::SCREEN_WIDTH as f64 * 3., hs_gba::SCREEN_HEIGHT as f64 * 3.));
 
         let display =
             Display::new(win_builder, ctx_builder, event_loop)

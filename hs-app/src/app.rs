@@ -1,23 +1,20 @@
-use crate::gui::Gui;
+use crate::gui;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Default)]
 pub struct App {
-    gui: Gui,
+    pub scale: u32,
 }
 
 impl App {
     pub fn new() -> Self {
         Self {
-            gui: Gui::new(),
+            scale: 0,
         }
     }
 
     /// Render the application
     #[allow(clippy::redundant_pattern_matching)]
     pub fn render(&mut self, ui: &mut imgui::Ui) {
-        let test_win = ui.window("Game");
-        if let Some(_) = test_win.begin() {
-            ui.text_wrapped("Hello, World");
-        }
+        gui::menubar::render_menubar(self, ui);
     }
 }
